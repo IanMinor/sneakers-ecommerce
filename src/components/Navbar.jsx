@@ -3,9 +3,19 @@ import DropDownMenu from "./DropDownMenu";
 import { LogoIcon } from "../assets/Icons";
 import { Link } from "react-router-dom";
 import useCartCalculations from "../hooks/useCartCalculations";
+import { useAuthStore } from "../store/authStore";
+
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownSection,
+  DropdownItem,
+} from "@heroui/dropdown";
 
 export default function Navbar() {
   const { totalItems } = useCartCalculations();
+  const { user, logout } = useAuthStore();
 
   return (
     <header className=" py-4 px-6">
@@ -20,10 +30,10 @@ export default function Navbar() {
           </Link>
 
           {/* Dropdown Men */}
-          <DropDownMenu title="Men"></DropDownMenu>
+          <DropDownMenu title="Men" />
           {/* Dropdown Menu Women */}
 
-          <DropDownMenu title="Women"></DropDownMenu>
+          <DropDownMenu title="Women" />
         </div>
 
         {/* Logo */}
@@ -36,9 +46,50 @@ export default function Navbar() {
             <Search className="w-5 h-5 text-black" />
           </button>
 
-          <Link to="/register" className="cursor-pointer">
-            <User className="w-5 h-5 text-black" />
-          </Link>
+          {/* usuario */}
+          <Dropdown>
+            <DropdownTrigger className="flex items-center justify-center gap-1 font-semibold  cursor-pointer">
+              <User className="w-5 h-5" />
+            </DropdownTrigger>
+            <DropdownMenu className="bg-white border border-gray-200 rounded-md shadow-lg px-5">
+              <DropdownSection>
+                {user ? (
+                  <>
+                    <DropdownItem
+                      as="div"
+                      className="w-full px-4 py-2 rounded hover:bg-gray-100 cursor-pointer"
+                    >
+                      {user.name}
+                    </DropdownItem>
+                    <DropdownItem
+                      as="div"
+                      onClick={logout}
+                      className="w-full px-4 py-2 rounded hover:bg-gray-100 cursor-pointer"
+                    >
+                      Logout
+                    </DropdownItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownItem
+                      as={Link}
+                      to="/login"
+                      className="w-full px-4 py-2 rounded hover:bg-gray-100 cursor-pointer"
+                    >
+                      Login
+                    </DropdownItem>
+                    <DropdownItem
+                      as={Link}
+                      to="/register"
+                      className="w-full px-4 py-2 rounded hover:bg-gray-100 cursor-pointer"
+                    >
+                      Register
+                    </DropdownItem>
+                  </>
+                )}
+              </DropdownSection>
+            </DropdownMenu>
+          </Dropdown>
 
           <Link to="/cart" className="relative cursor-pointer">
             <ShoppingCart className="w-5 h-5 text-black" />

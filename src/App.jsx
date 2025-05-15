@@ -1,5 +1,5 @@
 // import { Routes, Route } from "react-router-dom";
-import { createBrowserRouter, Router, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
 import Products from "./pages/Products";
@@ -10,6 +10,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Layout from "./Layout";
 import OrderConfirmation from "./pages/OrderConfirmation";
+import { useEffect } from "react";
+import { useAuthStore } from "./store/authStore";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const initialize = useAuthStore((state) => state.initialize);
+  useEffect(() => {
+    initialize();
+  }, []);
+
   return <RouterProvider router={router} />;
 }
 

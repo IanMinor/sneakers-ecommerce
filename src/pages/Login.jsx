@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
+import ErrorMessage from "../components/ErrorMessage";
 
 function Login() {
   const {
@@ -37,7 +38,9 @@ function Login() {
 
         {/* Email */}
         <div>
-          <label className="block mb-1">Email *</label>
+          <label className="block mb-1">
+            Email <span className="text-red-500">*</span>
+          </label>
           <input
             {...register("email", {
               required: "Email is required",
@@ -57,7 +60,9 @@ function Login() {
 
         {/* Password */}
         <div>
-          <label className="block mb-1">Password *</label>
+          <label className="block mb-1">
+            Password <span className="text-red-500">*</span>
+          </label>
           <input
             {...register("password", {
               required: "Password is required",
