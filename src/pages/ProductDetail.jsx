@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { products } from "../data/products";
 import { useCartStore } from "../store/cartStore";
 import { useAuthStore } from "../store/authStore";
@@ -9,23 +9,32 @@ function ProductDetail() {
   const product = products.find((p) => p.id === id);
   const addToCart = useCartStore((state) => state.addToCart);
   const { user } = useAuthStore();
+  const navigate = useNavigate();
 
   if (!product) return <p>Product not found</p>;
 
+  const [selectedSize, setSelectedSize] = useState(null);
+
+  const getCartItem = () => ({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    image: product.image,
+    size: selectedSize,
+    color: product.color,
+    description: product.description,
+    quantity: 1,
+  });
+
   const handleAddToCart = () => {
-    addToCart(user.email, {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      size: selectedSize,
-      color: product.color,
-      description: product.description,
-      quantity: 1,
-    });
+    addToCart(user.email, getCartItem());
   };
 
-  const [selectedSize, setSelectedSize] = useState(null);
+  const handleBuyNow = () => {
+    if (!selectedSize) return;
+    addToCart(user.email, getCartItem());
+    navigate("/checkout");
+  };
 
   return (
     <div className="flex flex-col md:flex-row items-center md:items-start md:justify-center gap-8 p-4 mt-7 font-rubik">
@@ -81,7 +90,11 @@ function ProductDetail() {
           >
             ADD TO CART
           </button>
-          <button className="w-full bg-blue-600 text-white py-2 mt-2 rounded-[8px] cursor-pointer">
+          <button
+            disabled={!selectedSize}
+            onClick={handleBuyNow}
+            className="w-full bg-blue-600 text-white py-2 mt-2 rounded-[8px] disabled:opacity-50 cursor-pointer"
+          >
             BUY IT NOW
           </button>
         </div>

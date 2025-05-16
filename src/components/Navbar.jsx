@@ -22,7 +22,10 @@ export default function Navbar() {
       <nav className="bg-white w-full rounded-3xl px-8 py-6 flex justify-between items-center max-w-7xl mx-auto shadow-md">
         {/* Sección izquierda */}
         <div className="flex items-center gap-6 text-black font-medium">
-          <Link to="/" className="flex items-center gap-1 font-semibold">
+          <Link
+            to="/products"
+            className="flex items-center gap-1 font-semibold"
+          >
             <span role="img" aria-label="fire">
               🔥
             </span>
