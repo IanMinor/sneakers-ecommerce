@@ -1,10 +1,14 @@
 import { useCartStore } from "../store/cartStore";
+import { useAuthStore } from "../store/authStore";
 import CartItem from "../components/CartItem";
 import OrderSummary from "../components/OrderSummary";
 
 function Cart() {
-  const cartItems = useCartStore((state) => state.cartItems);
+  const user = useAuthStore((state) => state.user);
+  const carts = useCartStore((state) => state.carts);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
+
+  const cartItems = user ? carts[user.email] || [] : [];
 
   return (
     <main className="flex gap-8 w-[90%] mx-auto mt-8 justify-between">
@@ -14,16 +18,15 @@ function Cart() {
         </p>
       ) : (
         <>
-          <div className="flex flex-col  gap-4">
+          <div className="flex flex-col gap-4">
             {cartItems.map((item) => (
               <CartItem
                 key={`${item.id}-${item.color}-${item.size}`}
                 item={item}
-                removeFromCart={removeFromCart} // Pass the remove function to CartItem
+                removeFromCart={() => removeFromCart(user.email, item)}
               />
             ))}
           </div>
-
           <OrderSummary />
         </>
       )}

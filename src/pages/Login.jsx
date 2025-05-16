@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
-import ErrorMessage from "../components/ErrorMessage";
 
 function Login() {
   const {
@@ -14,18 +13,20 @@ function Login() {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    const registeredUser = JSON.parse(localStorage.getItem("registeredUser"));
+    const users = JSON.parse(localStorage.getItem("users")) || [];
 
-    if (
-      registeredUser &&
-      data.email === registeredUser.email &&
-      data.password === registeredUser.password
-    ) {
-      login(registeredUser);
-      navigate("/"); // o /account
-    } else {
-      alert("Invalid credentials");
+    const userFound = users.find(
+      (u) => u.email === data.email && u.password === data.password
+    );
+
+    if (!userFound) {
+      alert("Invalid credentials.");
+      return;
     }
+
+    localStorage.setItem("user", JSON.stringify(userFound)); // sesión actual
+    login(userFound);
+    navigate("/");
   };
 
   return (

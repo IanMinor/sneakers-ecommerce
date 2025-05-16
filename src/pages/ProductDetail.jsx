@@ -1,17 +1,19 @@
 import { useParams } from "react-router-dom";
 import { products } from "../data/products";
 import { useCartStore } from "../store/cartStore";
+import { useAuthStore } from "../store/authStore";
 import { useState } from "react";
 
 function ProductDetail() {
   const { id } = useParams();
   const product = products.find((p) => p.id === id);
   const addToCart = useCartStore((state) => state.addToCart);
+  const { user } = useAuthStore();
 
   if (!product) return <p>Product not found</p>;
 
   const handleAddToCart = () => {
-    addToCart({
+    addToCart(user.email, {
       id: product.id,
       name: product.name,
       price: product.price,

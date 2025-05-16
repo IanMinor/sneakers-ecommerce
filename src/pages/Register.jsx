@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
 import ErrorMessage from "../components/ErrorMessage";
 
 function Register() {
@@ -12,15 +13,24 @@ function Register() {
   } = useForm();
 
   const navigate = useNavigate();
+  const login = useAuthStore((state) => state.login);
   const password = watch("password");
 
   const onSubmit = (data) => {
-    console.log("Registered user:", data);
+    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
+    const alreadyExists = existingUsers.some(
+      (user) => user.email === data.email
+    );
+    const updatedUsers = [...existingUsers, data];
+
+    localStorage.setItem("users", JSON.stringify(updatedUsers)); // guarda TODOS
+    localStorage.setItem("user", JSON.stringify(data)); // usuario logueado
+
+    login(data); // guarda en Zustand
+    navigate("/login");
+
     // Aquí podrías guardar el usuario en localStorage o backend
     reset();
-    localStorage.setItem("registeredUser", JSON.stringify(data));
-
-    navigate("/login");
   };
 
   return (

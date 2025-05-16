@@ -8,6 +8,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Account from "./pages/Account";
 import Layout from "./Layout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import { useEffect } from "react";
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
       { path: "order-confirmation", element: <OrderConfirmation /> },
+      { path: "account", element: <Account /> },
     ],
   },
 ]);

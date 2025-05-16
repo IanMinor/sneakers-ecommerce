@@ -56,7 +56,8 @@ export default function Navbar() {
                 {user ? (
                   <>
                     <DropdownItem
-                      as="div"
+                      as={Link}
+                      to="/account"
                       className="w-full px-4 py-2 rounded hover:bg-gray-100 cursor-pointer"
                     >
                       {user.name}
