@@ -8,6 +8,7 @@ function Login() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
 
   const login = useAuthStore((state) => state.login);
@@ -34,7 +35,6 @@ function Login() {
         className="p-8 rounded-2xl shadow-lg max-w-md w-full space-y-5"
       >
         <h2 className="text-3xl font-bold text-center">Login</h2>
-
         {/* Email */}
         <div>
           <label className="block mb-1">
@@ -56,7 +56,6 @@ function Login() {
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
           )}
         </div>
-
         {/* Password */}
         <div>
           <label className="block mb-1">
@@ -80,13 +79,18 @@ function Login() {
             </p>
           )}
         </div>
-
         <button
           type="submit"
           className="bg-gray-dark text-white uppercase w-full py-2 rounded-lg font-semibold hover:bg-gray-800 transition"
         >
           Login
         </button>
+
+        {errors.root && (
+          <p className="text-red-500 text-sm text-center">
+            {errors.root.message}
+          </p>
+        )}
       </form>
     </div>
   );
