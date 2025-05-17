@@ -14,7 +14,7 @@ function Register() {
 
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
-  const password = watch("password");
+  const contraseña = watch("contraseña");
 
   const onSubmit = (data) => {
     const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
@@ -47,7 +47,7 @@ function Register() {
             Name <span className="text-red-500">*</span>
           </label>
           <input
-            {...register("name", {
+            {...register("nombre", {
               required: "Name is required",
               minLength: {
                 value: 3,
@@ -59,11 +59,61 @@ function Register() {
               },
             })}
             className={`w-full px-4 py-2 rounded-lg bg-transparent border-1 border-gray-light focus:outline-none focus:ring-2 ${
-              errors.name ? "ring-red-500" : "ring-gray-300"
+              errors.nombre ? "ring-red-500" : "ring-gray-300"
             }`}
             placeholder="Enter your name"
           />
-          {errors.name && <ErrorMessage message={errors.name.message} />}
+          {errors.nombre && <ErrorMessage message={errors.nombre.message} />}
+        </div>
+
+        {/* Last Name */}
+        <div>
+          <label className="block mb-1 font-semibold">
+            Last Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            {...register("apellido", {
+              required: "Last name is required",
+              minLength: {
+                value: 3,
+                message: "Last name must be at least 3 characters",
+              },
+              maxLength: {
+                value: 20,
+                message: "Last name must be at most 20 characters",
+              },
+            })}
+            className={`w-full px-4 py-2 rounded-lg bg-transparent border-1 border-gray-light focus:outline-none focus:ring-2 ${
+              errors.name ? "ring-red-500" : "ring-gray-300"
+            }`}
+            placeholder="Enter your last name"
+          />
+          {errors.apellido && (
+            <ErrorMessage message={errors.apellido.message} />
+          )}
+        </div>
+
+        {/* Phone number */}
+        <div>
+          <label className="block mb-1 font-semibold">
+            Phone Number <span className="text-red-500">*</span>
+          </label>
+          <input
+            {...register("numero_telefono", {
+              required: "Phone number is required",
+              pattern: {
+                value: /^\d{10}$/,
+                message: "Invalid phone number",
+              },
+            })}
+            className={`w-full px-4 py-2 rounded-lg bg-transparent border-1 border-gray-light focus:outline-none focus:ring-2 ${
+              errors.name ? "ring-red-500" : "ring-gray-300"
+            }`}
+            placeholder="Enter your phone number"
+          />
+          {errors.numero_telefono && (
+            <ErrorMessage message={errors.numero_telefono.message} />
+          )}
         </div>
 
         {/* Email */}
@@ -94,7 +144,7 @@ function Register() {
             Password <span className="text-red-500">*</span>
           </label>
           <input
-            {...register("password", {
+            {...register("contraseña", {
               required: "Password is required",
               minLength: {
                 value: 4,
@@ -107,8 +157,8 @@ function Register() {
             }`}
             placeholder="Enter your password"
           />
-          {errors.password && (
-            <ErrorMessage message={errors.password.message} />
+          {errors.contraseña && (
+            <ErrorMessage message={errors.contraseña.message} />
           )}
         </div>
 
@@ -120,7 +170,8 @@ function Register() {
           <input
             {...register("confirmPassword", {
               required: "Please confirm your password",
-              validate: (value) => value === password || "Passwords must match",
+              validate: (value) =>
+                value === contraseña || "Passwords must match",
             })}
             type="password"
             className={`w-full px-4 py-2 rounded-lg bg-transparent border-1 border-gray-light focus:outline-none focus:ring-2 ${

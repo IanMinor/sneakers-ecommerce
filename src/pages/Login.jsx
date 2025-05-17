@@ -24,6 +24,8 @@ function Login() {
       return;
     }
 
+    console.log("User found:", data);
+
     localStorage.setItem("user", JSON.stringify(userFound)); // sesión actual
     login(userFound);
     navigate("/");
@@ -65,7 +67,7 @@ function Login() {
             Password <span className="text-red-500">*</span>
           </label>
           <input
-            {...register("password", {
+            {...register("contraseña", {
               required: "Password is required",
             })}
             type="password"
@@ -76,9 +78,9 @@ function Login() {
             }`}
             placeholder="Enter your password"
           />
-          {errors.password && (
+          {errors.contraseña && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.password.message}
+              {errors.contraseña.message}
             </p>
           )}
         </div>
