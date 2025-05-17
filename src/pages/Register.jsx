@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import ErrorMessage from "../components/ErrorMessage";
+import { registerUser } from "../utils/authApi";
 
 function Register() {
   const {
@@ -10,27 +11,25 @@ function Register() {
     watch,
     formState: { errors },
     reset,
+    setError,
   } = useForm();
 
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
   const contraseña = watch("contraseña");
 
-  const onSubmit = (data) => {
-    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const alreadyExists = existingUsers.some(
-      (user) => user.email === data.email
-    );
-    const updatedUsers = [...existingUsers, data];
-
-    localStorage.setItem("users", JSON.stringify(updatedUsers)); // guarda TODOS
-    localStorage.setItem("user", JSON.stringify(data)); // usuario logueado
-
-    login(data); // guarda en Zustand
-    navigate("/login");
-
-    // Aquí podrías guardar el usuario en localStorage o backend
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      const { ok, result } = await registerUser(data);
+      if (ok) {
+        login(result);
+        navigate("/");
+      } else {
+        setError("root", { message: result.message });
+      }
+    } catch (err) {
+      setError("root", { message: "Error de conexión al servidor" });
+    }
   };
 
   return (
@@ -40,7 +39,9 @@ function Register() {
         className="p-8 rounded-2xl shadow-lg max-w-md w-full  space-y-5"
       >
         <h2 className="text-3xl font-bold text-center">Create Account</h2>
-
+        {errors.root && (
+          <p className="text-red-500 text-sm">{errors.root.message}</p>
+        )}
         {/* Name */}
         <div>
           <label className="block mb-1 font-semibold">

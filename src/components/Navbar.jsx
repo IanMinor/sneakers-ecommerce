@@ -63,7 +63,7 @@ export default function Navbar() {
                       to="/account"
                       className="w-full px-4 py-2 rounded hover:bg-gray-100 cursor-pointer"
                     >
-                      {user.name}
+                      {user.nombre} {user.apellido}
                     </DropdownItem>
                     <DropdownItem
                       as="div"

@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
+import { loginUser } from "../utils/authApi";
 
 function Login() {
   const {
@@ -12,23 +13,18 @@ function Login() {
   const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-
-    const userFound = users.find(
-      (u) => u.email === data.email && u.password === data.password
-    );
-
-    if (!userFound) {
-      alert("Invalid credentials.");
-      return;
+  const onSubmit = async (data) => {
+    try {
+      const { ok, result } = await loginUser(data);
+      if (ok) {
+        login(result);
+        navigate("/");
+      } else {
+        setError("root", { message: result.message });
+      }
+    } catch (err) {
+      setError("root", { message: "Error de conexión" });
     }
-
-    console.log("User found:", data);
-
-    localStorage.setItem("user", JSON.stringify(userFound)); // sesión actual
-    login(userFound);
-    navigate("/");
   };
 
   return (
