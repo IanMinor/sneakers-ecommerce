@@ -3,7 +3,7 @@ import { useAuthStore } from "../store/authStore";
 import useCartCalculations from "../hooks/useCartCalculations";
 import CheckoutItem from "./CheckoutItem";
 
-function OrderDetails({ cartItems }) {
+function OrderDetails({ cartItems = [] }) {
   const { totalItems, subtotal } = useCartCalculations(cartItems);
   const user = useAuthStore((state) => state.user);
   const carts = useCartStore((state) => state.carts);

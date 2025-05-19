@@ -7,8 +7,8 @@ import { useUserCart } from "../hooks/useUserCart";
 
 function Checkout() {
   const user = useAuthStore((state) => state.user);
-  const navigate = useNavigate();
   const { cartItems } = useUserCart(user);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -19,10 +19,34 @@ function Checkout() {
     reset,
   } = useForm();
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
-    reset();
-    navigate("/order-confirmation");
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const entregaEstimada = new Date();
+      entregaEstimada.setDate(entregaEstimada.getDate() + 5);
+
+      const res = await fetch("http://localhost:3001/api/orders/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id_usuario: user.id_usuario,
+          entrega_estimada: entregaEstimada.toISOString().split("T")[0], // formato YYYY-MM-DD
+        }),
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`No se pudo crear el pedido: ${text}`);
+      }
+
+      const result = await res.json();
+      reset();
+
+      // ✅ Redirigir a una página de confirmación
+      navigate(`/order-confirmation/${result.id_pedido}`);
+    } catch (error) {
+      console.error(error);
+      alert("Hubo un problema al procesar tu pedido.");
+    }
   });
 
   return (

@@ -1,21 +1,25 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import OrderDetails from "../components/OrderDetails";
 import { useCartStore } from "../store/cartStore";
 
 function OrderConfirmation() {
   const { clearCart } = useCartStore();
   const navigate = useNavigate();
+  const { id_pedido } = useParams();
 
   const handleContinueShopping = () => {
-    clearCart();
+    // clearCart();
     navigate("/");
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8">
       <h1 className="text-4xl font-bold mb-10">Thank you for your purchase!</h1>
+      <p className="text-lg mb-4">
+        Your order number is: <strong>{id_pedido}</strong>
+      </p>
 
-      <OrderDetails />
+      {/* <OrderDetails /> */}
 
       <button
         onClick={handleContinueShopping}

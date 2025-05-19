@@ -26,7 +26,10 @@ const router = createBrowserRouter([
       { path: "checkout", element: <Checkout /> },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
-      { path: "order-confirmation", element: <OrderConfirmation /> },
+      {
+        path: "/order-confirmation/:id_pedido",
+        element: <OrderConfirmation />,
+      },
       { path: "account", element: <Account /> },
     ],
   },

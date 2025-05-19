@@ -10,7 +10,7 @@ function OrderSummary({ cartItems }) {
       <div>
         <div className="flex justify-between items-center">
           <p>{totalItems} ITEM</p>
-          <p>{subtotal}</p>
+          <p>${subtotal}</p>
         </div>
         <div className="flex justify-between items-center border-b-2 border-gray-200 py-2 text-2xl font-semibold text-gray-dark">
           <h3 className="">Total</h3>
