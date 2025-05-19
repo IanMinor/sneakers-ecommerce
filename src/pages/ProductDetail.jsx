@@ -57,10 +57,6 @@ function ProductDetail() {
     }
   };
 
-  // const handleAddToCart = () => {
-  //   addToCart(user.email, getCartItem());
-  // };
-
   const handleBuyNow = () => {
     if (!selectedSize) return;
     addToCart(user.email, getCartItem());

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import useCartCalculations from "../hooks/useCartCalculations.js";
 
-function OrderSummary() {
-  const { totalItems, subtotal } = useCartCalculations();
+function OrderSummary({ cartItems }) {
+  const { totalItems, subtotal } = useCartCalculations(cartItems);
 
   return (
     <article className="font-rubik flex flex-col gap-4 bg-white rounded-lg shadow-lg p-4 h-max w-full max-w-[400px]">

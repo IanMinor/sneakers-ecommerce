@@ -1,12 +1,14 @@
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../components/ErrorMessage";
 import OrderDetails from "../components/OrderDetails";
-import { useCartStore } from "../store/cartStore";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+import { useUserCart } from "../hooks/useUserCart";
 
 function Checkout() {
-  // const cartItems = useCartStore((state) => state.cartItems);
+  const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
+  const { cartItems } = useUserCart(user);
 
   const {
     register,
@@ -142,7 +144,7 @@ function Checkout() {
       </form>
 
       <section className=" ">
-        <OrderDetails />
+        <OrderDetails cartItems={cartItems} />
       </section>
     </main>
   );

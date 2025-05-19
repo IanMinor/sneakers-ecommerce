@@ -1,16 +1,18 @@
-import { useCartStore } from "../store/cartStore";
-import { useAuthStore } from "../store/authStore";
-import { calculateTotalItems, calculateSubtotal } from "../utils/items";
+import { useMemo } from "react";
 
-const useCartCalculations = () => {
-  const user = useAuthStore((state) => state.user);
-  const carts = useCartStore((state) => state.carts);
-
-  const cartItems = user ? carts[user.email] || [] : [];
-
-  const totalItems = calculateTotalItems(cartItems);
-  const subtotal = calculateSubtotal(cartItems);
-
+const useCartCalculations = (cartItems = []) => {
+  const totalItems = useMemo(
+    () => cartItems.reduce((acc, item) => acc + (item.cantidad || 0), 0),
+    [cartItems]
+  );
+  const subtotal = useMemo(
+    () =>
+      cartItems.reduce(
+        (acc, item) => acc + (item.precio || 0) * (item.cantidad || 0),
+        0
+      ),
+    [cartItems]
+  );
   return { totalItems, subtotal };
 };
 

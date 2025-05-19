@@ -1,4 +1,3 @@
-import { useCartStore } from "../store/cartStore";
 import { useAuthStore } from "../store/authStore";
 import { useUserCart } from "../hooks/useUserCart";
 import CartItem from "../components/CartItem";
@@ -6,8 +5,6 @@ import OrderSummary from "../components/OrderSummary";
 
 function Cart() {
   const user = useAuthStore((state) => state.user);
-  // const removeFromCart = useCartStore((state) => state.removeFromCart);
-
   const { cartItems, setCartItems, loading, error } = useUserCart(user);
 
   const handleRemove = async (id_producto) => {
@@ -61,7 +58,7 @@ function Cart() {
               />
             ))}
           </div>
-          <OrderSummary />
+          <OrderSummary cartItems={cartItems} />
         </>
       )}
     </main>

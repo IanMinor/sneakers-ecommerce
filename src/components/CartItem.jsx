@@ -10,7 +10,7 @@ function CartItem({ item, removeFromCart }) {
       <figure className="w-[200px] h-[full] rounded-[24px] overflow-hidden shadow-lg flex items-center justify-center flex-shrink-0">
         <img
           src={item.image}
-          alt={item.title}
+          alt={item.descripcion}
           className="w-full h-full object-cover"
         />
       </figure>
