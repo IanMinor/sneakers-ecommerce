@@ -1,6 +1,6 @@
 export const products = [
   {
-    id: "1",
+    id: "2000",
     name: "Nike Air Max 90",
     price: 129.99,
     image:
@@ -12,7 +12,7 @@ export const products = [
     category: "Casual shoes",
   },
   {
-    id: "2",
+    id: "2001",
     name: "Adidas Ultraboost 22",
     price: 139.99,
     image:
@@ -24,7 +24,7 @@ export const products = [
     category: "Runners",
   },
   {
-    id: "3",
+    id: "2002",
     name: "Nike Dunk Low Retro",
     price: 109.99,
     image:
@@ -36,7 +36,7 @@ export const products = [
     category: "Basketball",
   },
   {
-    id: "4",
+    id: "2003",
     name: "New Balance 550",
     price: 114.99,
     image: "https://nb.scene7.com/is/image/NB/bb550esg_nb_02_i?wid=880&hei=880",
@@ -47,7 +47,7 @@ export const products = [
     category: "Casual shoes",
   },
   {
-    id: "5",
+    id: "2004",
     name: "Puma RS-X",
     price: 89.99,
     image:

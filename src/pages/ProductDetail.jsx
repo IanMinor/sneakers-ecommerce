@@ -26,9 +26,40 @@ function ProductDetail() {
     quantity: 1,
   });
 
-  const handleAddToCart = () => {
-    addToCart(user.email, getCartItem());
+  const handleAddToCart = async () => {
+    if (!user) {
+      return navigate("/login");
+    }
+
+    try {
+      const res = await fetch("http://localhost:3001/api/cart/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id_usuario: user.id_usuario,
+          id_producto: product.id,
+          cantidad: 1,
+        }),
+      });
+
+      const result = await res.json();
+      if (res.ok) {
+        // Mostrar modal o mensaje: agregado al carrito
+        console.log("Producto agregado al carrito:", result);
+      } else {
+        // Mostrar error
+        console.log(result);
+      }
+    } catch (err) {
+      console.error("Error:", err);
+    }
   };
+
+  // const handleAddToCart = () => {
+  //   addToCart(user.email, getCartItem());
+  // };
 
   const handleBuyNow = () => {
     if (!selectedSize) return;
