@@ -6,9 +6,33 @@ import OrderSummary from "../components/OrderSummary";
 
 function Cart() {
   const user = useAuthStore((state) => state.user);
-  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  // const removeFromCart = useCartStore((state) => state.removeFromCart);
 
-  const { cartItems, loading, error } = useUserCart(user);
+  const { cartItems, setCartItems, loading, error } = useUserCart(user);
+
+  const handleRemove = async (id_producto) => {
+    if (!user) return;
+
+    try {
+      const res = await fetch(
+        `http://localhost:3001/api/cart/${user.id_usuario}/${id_producto}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (res.ok) {
+        // ✅ Actualizar el estado local eliminando ese producto
+        setCartItems((prev) =>
+          prev.filter((item) => item.id_producto !== id_producto)
+        );
+      } else {
+        console.error("No se pudo eliminar el producto del carrito");
+      }
+    } catch (error) {
+      console.error("Error al eliminar producto del carrito:", error);
+    }
+  };
 
   return (
     <main className="flex gap-8 w-[90%] mx-auto mt-8 justify-between">
@@ -27,11 +51,13 @@ function Cart() {
       ) : (
         <>
           <div className="flex flex-col gap-4">
-            {cartItems.map((item) => (
+            {cartItems.map((item, idx) => (
               <CartItem
-                key={`${item.id}`}
+                key={`${item.id || "noid"}-${item.size || "nosize"}-${
+                  item.color || "nocolor"
+                }-${idx}`}
                 item={item}
-                removeFromCart={() => removeFromCart(user.email, item)}
+                removeFromCart={handleRemove}
               />
             ))}
           </div>

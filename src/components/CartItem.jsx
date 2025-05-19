@@ -2,7 +2,7 @@ import { Trash2, Heart } from "lucide-react";
 
 function CartItem({ item, removeFromCart }) {
   const handleRemove = () => {
-    removeFromCart(item);
+    removeFromCart(item.id_producto);
   };
 
   return (
