@@ -1,6 +1,6 @@
 import { useFilterStore } from "../store/useFilterStore";
 
-function ProductFilters() {
+function ProductFilters({ onApply, onReset }) {
   const { filters, updateFilter, toggleFilterValue } = useFilterStore();
 
   const handleChangePrice = (e) => {
@@ -11,16 +11,18 @@ function ProductFilters() {
     toggleFilterValue("gender", e.target.value.toLowerCase());
   };
 
-  // const handleChangeSize = (e) => {
-  //   toggleFilterValue("size", e.target.value);
-  // };
-
-  // const handleChangeColor = (e) => {
-  //   toggleFilterValue("color", e.target.value);
-  // };
-
   const handleChangeCategory = (e) => {
     toggleFilterValue("category", e.target.value);
+  };
+
+  // Botón de reset: limpia todos los filtros
+  const handleReset = () => {
+    updateFilter("minPrice", 0);
+    updateFilter("gender", []);
+    updateFilter("size", []);
+    updateFilter("color", []);
+    updateFilter("category", []);
+    if (onReset) onReset();
   };
 
   return (
@@ -144,6 +146,22 @@ function ProductFilters() {
         <div className="flex justify-between text-sm text-gray-600">
           <span>${filters.minPrice}</span>
         </div>
+      </div>
+      <div className="flex gap-3 mt-6 md:hidden">
+        <button
+          type="button"
+          className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 transition"
+          onClick={handleReset}
+        >
+          Reiniciar
+        </button>
+        <button
+          type="button"
+          className="bg-blue-brand text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+          onClick={onApply}
+        >
+          Aplicar
+        </button>
       </div>
     </div>
   );

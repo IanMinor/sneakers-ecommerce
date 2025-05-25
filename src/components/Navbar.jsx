@@ -1,10 +1,12 @@
 import { Search, User, ShoppingCart } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import DropDownMenu from "./DropDownMenu";
 import { LogoIcon } from "../assets/Icons";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { useUserCart } from "../hooks/useUserCart";
 import { useState } from "react";
+import useCartCalculations from "../hooks/useCartCalculations";
 
 import {
   Dropdown,
@@ -18,9 +20,9 @@ export default function Navbar() {
   const { user, logout } = useAuthStore();
   const { cartItems } = useUserCart(user);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { totalItems, subtotal } = useCartCalculations(cartItems);
 
-  const totalItems =
-    cartItems?.reduce((acc, item) => acc + item.cantidad, 0) || 0;
+  const [showMiniCart, setShowMiniCart] = useState(false);
 
   return (
     <header className="py-4 px-6">
@@ -121,12 +123,64 @@ export default function Navbar() {
               </DropdownSection>
             </DropdownMenu>
           </Dropdown>
-          <Link to="/cart" className="relative cursor-pointer">
-            <ShoppingCart className="w-5 h-5 text-black" />
-            <span className="absolute -top-2 -right-2 bg-yellow-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-              {totalItems}
-            </span>
-          </Link>
+
+          <div
+            className="relative font-rubik"
+            onMouseEnter={() => setShowMiniCart(true)}
+            onMouseLeave={() => setShowMiniCart(false)}
+          >
+            <Link to="/cart" className="relative cursor-pointer">
+              <ShoppingCart className="w-5 h-5 text-black" />
+              <span className="absolute -top-2 -right-2 bg-yellow-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                {totalItems}
+              </span>
+            </Link>
+
+            {/* Mini cart modal con animación */}
+            <AnimatePresence>
+              {showMiniCart && (
+                <motion.div
+                  key="mini-cart"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute top-8 right-0 z-50 w-[300px] bg-white shadow-xl border border-gray-200 rounded-xl px-4 py-3"
+                >
+                  <div className="flex flex-col gap-2 max-h-[240px] overflow-y-auto custom-scrollbar">
+                    {cartItems.map((item) => (
+                      <div
+                        key={item.id_producto}
+                        className="flex gap-3 items-center text-sm"
+                      >
+                        <img
+                          src={item.imagen}
+                          alt={item.nombre_producto}
+                          className="w-12 h-12 rounded object-cover border"
+                        />
+                        <div className="flex flex-col flex-grow">
+                          <span className="truncate font-medium">
+                            {item.nombre_producto}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            x{item.cantidad}
+                          </span>
+                        </div>
+                        <span className="text-xs font-semibold text-gray-700 whitespace-nowrap">
+                          ${item.precio}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-2 border-t pt-2 flex justify-between text-sm font-semibold">
+                    <span>Total</span>
+                    <span>${subtotal}</span>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* Menú móvil */}
