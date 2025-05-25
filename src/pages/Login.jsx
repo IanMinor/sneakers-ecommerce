@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { loginUser } from "../utils/authApi";
+import SuccessModal from "../components/SuccessModal";
+import { useState } from "react";
 
 function Login() {
   const {
@@ -13,13 +15,18 @@ function Login() {
 
   const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const onSubmit = async (data) => {
     try {
       const { ok, result } = await loginUser(data);
       if (ok) {
-        login(result);
-        navigate("/");
+        setShowSuccess(true);
+        setTimeout(() => {
+          setShowSuccess(false);
+          login(result);
+          navigate("/");
+        }, 1500);
       } else {
         setError("root", { message: result.message });
       }
@@ -30,6 +37,7 @@ function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
+      <SuccessModal show={showSuccess} message="¡Inicio de sesión exitoso!" />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="p-8 rounded-2xl shadow-lg max-w-md w-full space-y-5"

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import ErrorMessage from "../components/ErrorMessage";
 import { registerUser } from "../utils/authApi";
+import { useState } from "react";
+import SuccessModal from "../components/SuccessModal";
 
 function Register() {
   const {
@@ -17,13 +19,18 @@ function Register() {
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
   const contraseña = watch("contraseña");
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const onSubmit = async (data) => {
     try {
       const { ok, result } = await registerUser(data);
       if (ok) {
-        login(result);
-        navigate("/");
+        setShowSuccess(true);
+        setTimeout(() => {
+          setShowSuccess(false);
+          login(result);
+          navigate("/");
+        }, 1800);
       } else {
         setError("root", { message: result.message });
       }
@@ -34,6 +41,10 @@ function Register() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br p-4">
+      <SuccessModal
+        show={showSuccess}
+        message="✅ Registro exitoso. ¡Bienvenido!"
+      />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="p-8 rounded-2xl shadow-lg max-w-md w-full  space-y-5"
