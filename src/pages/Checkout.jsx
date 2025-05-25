@@ -41,7 +41,6 @@ function Checkout() {
       const result = await res.json();
       reset();
 
-      // ✅ Redirigir a una página de confirmación
       navigate(`/order-confirmation/${result.id_pedido}`);
     } catch (error) {
       console.error(error);

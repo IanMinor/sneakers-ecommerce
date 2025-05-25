@@ -3,6 +3,7 @@ import { products } from "../data/products";
 import { useCartStore } from "../store/cartStore";
 import { useAuthStore } from "../store/authStore";
 import { useState } from "react";
+import AddToCartModal from "../components/AddToCartModal";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -11,9 +12,10 @@ function ProductDetail() {
   const { user } = useAuthStore();
   const navigate = useNavigate();
 
-  if (!product) return <p>Product not found</p>;
-
   const [selectedSize, setSelectedSize] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  if (!product) return <p>Product not found</p>;
 
   const getCartItem = () => ({
     id: product.id,
@@ -46,8 +48,10 @@ function ProductDetail() {
 
       const result = await res.json();
       if (res.ok) {
-        // Mostrar modal o mensaje: agregado al carrito
-        console.log("Producto agregado al carrito:", result);
+        setShowModal(true);
+        setTimeout(() => {
+          setShowModal(false);
+        }, 2000);
       } else {
         // Mostrar error
         console.log(result);
@@ -110,13 +114,16 @@ function ProductDetail() {
 
         {/* Add to cart */}
         <div className="mt-6">
-          <button
-            disabled={!selectedSize}
-            onClick={handleAddToCart}
-            className="w-full bg-black text-white py-2 rounded-[8px] disabled:opacity-50 cursor-pointer"
-          >
-            ADD TO CART
-          </button>
+          <div>
+            <button
+              disabled={!selectedSize}
+              onClick={handleAddToCart}
+              className="w-full bg-black text-white py-2 rounded-[8px] disabled:opacity-50 cursor-pointer"
+            >
+              ADD TO CART
+            </button>
+            <AddToCartModal isOpen={showModal} />
+          </div>
           <button
             disabled={!selectedSize}
             onClick={handleBuyNow}

@@ -2,8 +2,8 @@ import { Search, User, ShoppingCart } from "lucide-react";
 import DropDownMenu from "./DropDownMenu";
 import { LogoIcon } from "../assets/Icons";
 import { Link } from "react-router-dom";
-import useCartCalculations from "../hooks/useCartCalculations";
 import { useAuthStore } from "../store/authStore";
+import { useUserCart } from "../hooks/useUserCart";
 
 import {
   Dropdown,
@@ -14,8 +14,11 @@ import {
 } from "@heroui/dropdown";
 
 export default function Navbar() {
-  const { totalItems } = useCartCalculations();
   const { user, logout } = useAuthStore();
+  const { cartItems } = useUserCart(user);
+
+  const totalItems =
+    cartItems?.reduce((acc, item) => acc + item.cantidad, 0) || 0;
 
   return (
     <header className=" py-4 px-6">

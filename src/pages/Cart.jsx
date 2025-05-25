@@ -19,7 +19,7 @@ function Cart() {
       );
 
       if (res.ok) {
-        // ✅ Actualizar el estado local eliminando ese producto
+        //  Actualizar el estado local eliminando ese producto
         setCartItems((prev) =>
           prev.filter((item) => item.id_producto !== id_producto)
         );
