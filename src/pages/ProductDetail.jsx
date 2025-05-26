@@ -112,14 +112,14 @@ function ProductDetail() {
             onClick={handleAddToCart}
             className="w-full bg-black text-white py-2 rounded-[8px] disabled:opacity-50 cursor-pointer"
           >
-            AÑADIR AL CARRITO
+            ADD TO CART
           </button>
           <button
             disabled={!selectedSize}
             onClick={handleBuyNow}
             className="w-full bg-blue-600 text-white py-2 rounded-[8px] disabled:opacity-50 cursor-pointer"
           >
-            COMPRAR AHORA
+            BUY IT NOW
           </button>
         </div>
         <AddToCartModal isOpen={showModal} />
