@@ -32,22 +32,22 @@ function Cart() {
   };
 
   return (
-    <main className="flex gap-8 w-[90%] mx-auto mt-8 justify-between">
+    <main className="flex flex-col lg:flex-row gap-8 w-full max-w-5xl mx-auto mt-8 px-2 lg:px-0 justify-between">
       {loading ? (
-        <p className="text-gray-500 flex justify-center items-center h-screen text-xl font-semibold w-full">
+        <p className="text-gray-500 flex justify-center items-center min-h-[40vh] text-xl font-semibold w-full">
           Loading cart...
         </p>
       ) : error ? (
-        <p className="text-red-500 flex justify-center items-center h-screen text-xl font-semibold w-full">
+        <p className="text-red-500 flex justify-center items-center min-h-[40vh] text-xl font-semibold w-full">
           Error: {error}
         </p>
       ) : cartItems.length === 0 ? (
-        <p className="text-gray-500 flex justify-center items-center h-screen text-xl font-semibold w-full">
+        <p className="text-gray-500 flex justify-center items-center min-h-[40vh] text-xl font-semibold w-full">
           Empty Cart, please add some items to your cart.
         </p>
       ) : (
-        <>
-          <div className="flex flex-col gap-4">
+        <div className="flex flex-col lg:flex-row gap-8 w-full">
+          <div className="flex flex-col gap-4 w-full lg:w-2/3">
             {cartItems.map((item, idx) => (
               <CartItem
                 key={`${item.id || "noid"}-${item.size || "nosize"}-${
@@ -58,8 +58,10 @@ function Cart() {
               />
             ))}
           </div>
-          <OrderSummary cartItems={cartItems} />
-        </>
+          <div className="w-full lg:w-1/3 mt-8 lg:mt-0">
+            <OrderSummary cartItems={cartItems} />
+          </div>
+        </div>
       )}
     </main>
   );
