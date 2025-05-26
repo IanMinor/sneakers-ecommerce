@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { apiUrl } from "../utils/api";
 
 export function useUserCart(user) {
   const [cartItems, setCartItems] = useState([]);
@@ -12,7 +13,7 @@ export function useUserCart(user) {
       setError(null);
       try {
         const res = await fetch(
-          `http://localhost:3001/api/cart/${user.id_usuario}`
+          `${apiUrl}/api/cart/${user.id_usuario}`
         );
         if (!res.ok) throw new Error("Error fetching cart");
         const data = await res.json();
