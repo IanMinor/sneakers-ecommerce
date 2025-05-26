@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiUrl } from "../utils/api";
 
 export function useFilterOptions() {
   const [options, setOptions] = useState({
@@ -12,9 +13,7 @@ export function useFilterOptions() {
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const res = await fetch(
-          "http://localhost:3001/api/products/filters/options"
-        );
+        const res = await fetch(`${apiUrl}/api/products/filters/options`);
         if (!res.ok) throw new Error("No se pudieron obtener los filtros");
         const data = await res.json();
         setOptions(data);

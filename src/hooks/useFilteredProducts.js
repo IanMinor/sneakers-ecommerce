@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useFilterStore } from "../store/useFilterStore";
+import { apiUrl } from "../utils/api";
 
 export function useFilteredProducts() {
   const { filters } = useFilterStore();
@@ -25,7 +26,7 @@ export function useFilteredProducts() {
       setError(null);
       try {
         const query = buildQuery();
-        const res = await fetch(`http://localhost:3001/api/products?${query}`);
+        const res = await fetch(`${apiUrl}/api/products?${query}`);
         if (!res.ok) throw new Error("Error al cargar productos");
         const data = await res.json();
         setProducts(data);

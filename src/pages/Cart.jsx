@@ -2,6 +2,7 @@ import { useAuthStore } from "../store/authStore";
 import { useUserCart } from "../hooks/useUserCart";
 import CartItem from "../components/CartItem";
 import OrderSummary from "../components/OrderSummary";
+import { apiUrl } from "../utils/api"; // <-- Agrega esta línea
 
 function Cart() {
   const user = useAuthStore((state) => state.user);
@@ -12,7 +13,7 @@ function Cart() {
 
     try {
       const res = await fetch(
-        `http://localhost:3001/api/cart/${user.id_usuario}/${id_producto}`,
+        `${apiUrl}/api/cart/${user.id_usuario}/${id_producto}`,
         {
           method: "DELETE",
         }

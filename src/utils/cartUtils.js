@@ -1,6 +1,8 @@
+import { apiUrl } from "./api";
+
 export const fetchCartTotal = async (id_usuario) => {
   try {
-    const res = await fetch(`http://localhost:3001/api/cart/${id_usuario}`);
+    const res = await fetch(`${apiUrl}/api/cart/${id_usuario}`);
     const data = await res.json();
     return data.reduce((acc, item) => acc + item.cantidad, 0);
   } catch (error) {

@@ -4,6 +4,7 @@ import { useCartStore } from "../store/cartStore";
 import { useState } from "react";
 import { useProductById } from "../hooks/useProductById";
 import AddToCartModal from "../components/AddToCartModal";
+import { apiUrl } from "../utils/api";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -35,17 +36,17 @@ function ProductDetail() {
   });
 
   const handleAddToCart = async () => {
-    if (!user) return navigate("/login");
-    try {
-      const res = await fetch("http://localhost:3001/api/cart/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id_usuario: user.id_usuario,
-          id_producto: product.id_producto,
-          cantidad: 1,
-        }),
-      });
+  if (!user) return navigate("/login");
+  try {
+    const res = await fetch(`${apiUrl}/api/cart/add`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id_usuario: user.id_usuario,
+        id_producto: product.id_producto,
+        cantidad: 1,
+      }),
+    });
       if (res.ok) {
         setShowModal(true);
         setTimeout(() => setShowModal(false), 2000);

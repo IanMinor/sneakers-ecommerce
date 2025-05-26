@@ -4,6 +4,7 @@ import OrderDetails from "../components/OrderDetails";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { useUserCart } from "../hooks/useUserCart";
+import { apiUrl } from "../utils/api";
 
 function Checkout() {
   const user = useAuthStore((state) => state.user);
@@ -24,12 +25,12 @@ function Checkout() {
       const entregaEstimada = new Date();
       entregaEstimada.setDate(entregaEstimada.getDate() + 5);
 
-      const res = await fetch("http://localhost:3001/api/orders/create", {
+      const res = await fetch(`${apiUrl}/api/orders/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id_usuario: user.id_usuario,
-          entrega_estimada: entregaEstimada.toISOString().split("T")[0], // formato YYYY-MM-DD
+          entrega_estimada: entregaEstimada.toISOString().split("T")[0],
         }),
       });
 
