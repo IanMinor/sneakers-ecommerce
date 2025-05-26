@@ -90,7 +90,7 @@ function ProductDetail() {
 
         {/* Talla única */}
         <div className="mt-4">
-          <span className="text-sm font-medium">Talla</span>
+          <span className="text-sm font-medium">Size</span>
           <div className="flex gap-2 mt-2">
             <button
               key={product.talla}
