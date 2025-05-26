@@ -4,42 +4,39 @@ import { useFilterStore } from "../store/useFilterStore";
 export function useFilteredProducts() {
   const { filters } = useFilterStore();
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const buildQuery = () => {
       const params = new URLSearchParams();
 
-      if (filters.minPrice > 0) {
-        params.append("minPrice", filters.minPrice);
-      }
+      if (filters.minPrice > 0) params.append("minPrice", filters.minPrice);
+
       ["gender", "size", "color", "category"].forEach((key) => {
-        filters[key].forEach((val) => {
-          params.append(key, val);
-        });
+        filters[key].forEach((value) => params.append(key, value));
       });
 
       return params.toString();
     };
 
-    const fetchFiltered = async () => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        setLoading(true);
         const query = buildQuery();
         const res = await fetch(`http://localhost:3001/api/products?${query}`);
-        if (!res.ok) throw new Error("No se pudieron cargar los productos");
+        if (!res.ok) throw new Error("Error al cargar productos");
         const data = await res.json();
         setProducts(data);
       } catch (err) {
         setError(err.message);
-        setProducts([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchFiltered();
+    fetchProducts();
   }, [filters]);
 
   return { products, loading, error };

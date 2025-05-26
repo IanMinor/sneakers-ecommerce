@@ -2,10 +2,12 @@ import { useState } from "react";
 import ProductCard from "../components/ProductCard";
 import ProductFilters from "../components/ProductFilters";
 import { useFilters } from "../hooks/useFilters";
-import { useProducts } from "../hooks/useProducts";
+// import { useProducts } from "../hooks/useProducts";
+import { useFilteredProducts } from "../hooks/useFilteredProducts";
 
 function Products() {
-  const { products, loading, error } = useProducts();
+  // const { products, loading, error } = useProducts();
+  const { products, loading, error } = useFilteredProducts();
   const { filteredProducts } = useFilters();
   const [showFilters, setShowFilters] = useState(false);
 
@@ -64,14 +66,17 @@ function Products() {
       )}
 
       <section className="w-full">
-        {filteredProducts.length === 0 ? (
+        {products.length === 0 ? (
           <p className="text-gray-500 flex justify-center items-center h-screen text-xl font-semibold">
             No products match your filters.
           </p>
         ) : (
           <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] justify-items-center mt-8">
             {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard
+                key={product.id_producto || product.id}
+                product={product}
+              />
             ))}
           </div>
         )}

@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { useUserCart } from "../hooks/useUserCart";
 import { useState } from "react";
+import { useProducts } from "../hooks/useProducts";
+
 import useCartCalculations from "../hooks/useCartCalculations";
 
 import {

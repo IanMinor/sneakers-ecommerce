@@ -1,7 +1,12 @@
+import { useFilterOptions } from "../hooks/useFilterOptions";
 import { useFilterStore } from "../store/useFilterStore";
 
 function ProductFilters({ onApply, onReset }) {
-  const { filters, updateFilter, toggleFilterValue } = useFilterStore();
+  const { options, loading, error } = useFilterOptions();
+  const { filters, toggleFilterValue, updateFilter } = useFilterStore();
+
+  if (loading) return <p>Cargando filtros...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   const handleChangePrice = (e) => {
     updateFilter("minPrice", Number(e.target.value));
@@ -29,7 +34,7 @@ function ProductFilters({ onApply, onReset }) {
     <div className="p-4 rounded-2xl font-rubik">
       <h2 className="text-xl font-semibold mb-4">Filters</h2>
       {/* Refine By */}
-      <div className="mb-6">
+      <div className="mb-8">
         <h3 className="font-medium mb-2">REFINE BY</h3>
         <div className="flex gap-2">
           <span className="bg-blue-500 text-white px-2 py-1 rounded-full text-sm">
@@ -41,76 +46,51 @@ function ProductFilters({ onApply, onReset }) {
         </div>
       </div>
       {/* Size */}
-      <div className="mb-6">
-        <h3 className="font-medium mb-2">SIZE</h3>
-        <div className="grid grid-cols-4 gap-2">
-          {[38, 39, 40, 41, 42, 43, 44, 45, 46, 47].map((size) => {
-            const isSelected = filters.size.includes(String(size));
-            return (
-              <button
-                key={size}
-                // className="border rounded-lg px-2 py-1 hover:bg-black hover:text-white transition duration-200 ease-in-out cursor-pointer"
-                value={size}
-                onClick={() => toggleFilterValue("size", String(size))}
-                className={`border rounded-lg px-2 py-1 transition duration-200 cursor-pointer
-                  ${isSelected ? "bg-black text-white" : "hover:bg-gray-200"}`}
-              >
-                {size}
-              </button>
-            );
-          })}
-        </div>
+      <div className="grid grid-cols-4 gap-2 mb-8">
+        {options.sizes.map((size) => {
+          const isSelected = filters.size.includes(String(size));
+          return (
+            <button
+              key={size}
+              value={size}
+              onClick={() => toggleFilterValue("size", String(size))}
+              className={`border rounded-lg px-2 py-1 transition duration-200 cursor-pointer
+          ${isSelected ? "bg-black text-white" : "hover:bg-gray-200"}`}
+            >
+              {size}
+            </button>
+          );
+        })}
       </div>
 
       {/* Color */}
-      <div className="mb-6">
-        <h3 className="font-medium mb-2">COLOR</h3>
-        <div className="grid grid-cols-5 gap-2">
-          {[
-            "blue",
-            "yellow",
-            "green",
-            "gray",
-            "orange",
-            "lightgray",
-            "darkgray",
-            "brown",
-            "black",
-          ].map((color, idx) => {
-            const isSelected = filters.color.includes(color);
+      <div className="grid grid-cols-5 gap-2 mb-8">
+        {options.colors.map((color, idx) => {
+          const isSelected = filters.color.includes(color.toLowerCase());
 
-            return (
-              <button
-                key={idx}
-                style={{ backgroundColor: color }}
-                onClick={(e) => toggleFilterValue("color", color)}
-                className={`w-7 h-7 rounded-[8px] border transition duration-200 ${
-                  isSelected ? "ring-1 ring-black scale-105" : "ring-0"
-                }`}
-              ></button>
-            );
-          })}
-        </div>
+          return (
+            <button
+              key={idx}
+              style={{ backgroundColor: color }}
+              onClick={() => toggleFilterValue("color", color.toLowerCase())}
+              className={`w-7 h-7 rounded-[8px] border transition duration-200 ${
+                isSelected ? "ring-2 ring-black scale-105" : ""
+              }`}
+            ></button>
+          );
+        })}
       </div>
+
       {/* Categorías */}
-      <div className="mb-6">
-        <h3 className="font-medium mb-2">CATEGORY</h3>
-        {[
-          "Casual shoes",
-          "Runners",
-          "Hiking",
-          "Sneaker",
-          "Basketball",
-          "Golf",
-          "Outdoor",
-        ].map((category) => (
-          <div key={category} className="flex items-center gap-2">
+      <div className="mb-8">
+        {options.categories.map((category) => (
+          <div key={category} className="flex items-center gap-2 mb-2">
             <input
               type="checkbox"
               id={category}
-              value={category}
+              value={category || ""}
               checked={filters.category.includes(category)}
-              onChange={handleChangeCategory}
+              onChange={(e) => toggleFilterValue("category", category)}
             />
             <label htmlFor={category}>{category}</label>
           </div>
@@ -118,10 +98,10 @@ function ProductFilters({ onApply, onReset }) {
       </div>
 
       {/* Gender */}
-      <div className="mb-6">
+      <div className="mb-8">
         <h3 className="font-medium mb-2">GENDER</h3>
         {["Men", "Women"].map((gender) => (
-          <div key={gender} className="flex items-center gap-2">
+          <div key={gender} className="flex items-center gap-2 mb-2">
             <input
               type="checkbox"
               id={gender}
@@ -134,7 +114,7 @@ function ProductFilters({ onApply, onReset }) {
         ))}
       </div>
       {/* Price Slider */}
-      <div>
+      <div className="mb-8">
         <h3 className="font-medium mb-2">PRICE</h3>
         <input
           type="range"

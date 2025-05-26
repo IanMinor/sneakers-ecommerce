@@ -19,15 +19,26 @@ export const useFilterStore = create((set) => ({
 
   toggleFilterValue: (key, value) =>
     set((state) => {
-      const current = state.filters[key];
-      const updated = current.includes(value)
-        ? current.filter((v) => v !== value)
-        : [...current, value];
+      const values = state.filters[key];
+      const newValues = values.includes(value)
+        ? values.filter((v) => v !== value)
+        : [...values, value];
       return {
         filters: {
           ...state.filters,
-          [key]: updated,
+          [key]: newValues,
         },
       };
     }),
+
+  resetFilters: () =>
+    set(() => ({
+      filters: {
+        minPrice: 0,
+        gender: [],
+        size: [],
+        color: [],
+        category: [],
+      },
+    })),
 }));
