@@ -4,11 +4,11 @@ import { motion } from "framer-motion";
 
 function HomePage() {
   return (
-    <main className="font-rubik w-[90%] mx-auto max-w-[1200px]">
-      <section className="grid grid-cols-2 py-20 items-center justify-center">
+    <main className="font-rubik w-full max-w-[1200px] mx-auto px-2">
+      <section className="grid grid-cols-1 md:grid-cols-2 py-10 md:py-20 items-center justify-center gap-8">
         <article>
           <motion.div
-            className="flex flex-col justify-center text-8xl font-bold"
+            className="flex flex-col md:items-start items-center justify-center text-6xl md:text-8xl font-bold md:text-left text-center"
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -31,7 +31,7 @@ function HomePage() {
           </motion.div>
 
           <motion.p
-            className="text-2xl"
+            className="text-2xl md:text-left text-center mt-4"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.6 }}
@@ -40,6 +40,7 @@ function HomePage() {
           </motion.p>
 
           <motion.div
+            className="flex md:justify-start justify-center"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1, duration: 0.5 }}
@@ -54,9 +55,9 @@ function HomePage() {
           </motion.div>
         </article>
 
-        <article className="flex justify-center items-center">
+        <article className="flex justify-center items-center mt-8 md:mt-0">
           <motion.figure
-            className="w-[505px] h-[505px] rounded-full bg-black bg-cover flex items-center justify-center"
+            className="w-[90vw] max-w-[350px] md:max-w-[505px] h-[90vw] max-h-[350px] md:max-h-[505px] rounded-full bg-black bg-cover flex items-center justify-center"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{
@@ -69,7 +70,7 @@ function HomePage() {
             <motion.img
               src="public/images/yeezy.png"
               alt="Yeezy sneaker"
-              className="relative w-[650px] h-[650px] right-[50px] bottom-[100px] rotate-[-5deg]"
+              className="relative w-[80vw] max-w-[300px] md:w-[650px] md:max-w-[650px] h-[80vw] max-h-[300px] md:h-[650px] md:max-h-[650px] right-0 md:right-[50px] bottom-0 md:bottom-[100px] rotate-[-5deg]"
               initial={{ rotate: -15, y: 60, opacity: 0 }}
               animate={{ rotate: -5, y: 0, opacity: 1 }}
               transition={{
