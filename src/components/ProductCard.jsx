@@ -16,16 +16,18 @@ function ProductCard({ product }) {
           </p>
           <img
             className="w-full h-full bg-cover rounded-3xl "
-            src={product.image}
-            alt={product.name}
+            src={product.imagen}
+            alt={product.nombre_producto}
           />
         </figure>
-        <h3 className="block text-2xl font-medium my-4">{product.name}</h3>
+        <h3 className="block text-2xl font-medium my-4">
+          {product.nombre_producto}
+        </h3>
         <Link
-          to={`/products/${product.id}`}
+          to={`/products/${product.id_producto}`}
           className="block text-center w-full h-12 py-3 px-4 rounded-[8px] bg-gray-dark text-xs font-medium uppercase text-white"
         >
-          View Product - ${product.price}
+          View Product - ${product.precio}
         </Link>
       </div>
     </motion.div>

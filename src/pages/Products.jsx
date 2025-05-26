@@ -2,10 +2,15 @@ import { useState } from "react";
 import ProductCard from "../components/ProductCard";
 import ProductFilters from "../components/ProductFilters";
 import { useFilters } from "../hooks/useFilters";
+import { useProducts } from "../hooks/useProducts";
 
 function Products() {
+  const { products, loading, error } = useProducts();
   const { filteredProducts } = useFilters();
   const [showFilters, setShowFilters] = useState(false);
+
+  if (loading) return <p className="text-center">Cargando productos...</p>;
+  if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
     <div className="flex gap-5 justify-center w-[90%] mx-auto relative">
@@ -65,7 +70,7 @@ function Products() {
           </p>
         ) : (
           <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] justify-items-center mt-8">
-            {filteredProducts.map((product) => (
+            {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

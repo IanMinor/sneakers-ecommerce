@@ -109,6 +109,7 @@ function ProductFilters({ onApply, onReset }) {
               type="checkbox"
               id={category}
               value={category}
+              checked={filters.category.includes(category)}
               onChange={handleChangeCategory}
             />
             <label htmlFor={category}>{category}</label>
@@ -125,6 +126,7 @@ function ProductFilters({ onApply, onReset }) {
               type="checkbox"
               id={gender}
               value={gender}
+              checked={filters.gender.includes(gender.toLowerCase())}
               onChange={handleChangeGender}
             />
             <label htmlFor={gender}>{gender}</label>
@@ -137,8 +139,8 @@ function ProductFilters({ onApply, onReset }) {
         <input
           type="range"
           min="0"
-          max="300"
-          step="10"
+          max="5000"
+          step="100"
           className="w-full"
           onChange={handleChangePrice}
           value={filters.minPrice}

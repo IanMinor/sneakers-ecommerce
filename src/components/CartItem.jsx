@@ -9,7 +9,7 @@ function CartItem({ item, removeFromCart }) {
     <article className="flex w-full max-h-[200px] font-rubik border-gray-200 rounded-lg p-4 mt-4 gap-6">
       <figure className="w-[200px] h-[full] rounded-[24px] overflow-hidden shadow-lg flex items-center justify-center flex-shrink-0">
         <img
-          src={item.image}
+          src={item.imagen}
           alt={item.descripcion}
           className="w-full h-full object-cover"
         />
