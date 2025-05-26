@@ -26,6 +26,8 @@ export default function Navbar() {
 
   const [showMiniCart, setShowMiniCart] = useState(false);
 
+  const { products } = useProducts();
+
   return (
     <header className="py-4 px-6">
       <nav className="bg-white w-full rounded-3xl px-4 md:px-8 py-6 flex items-center max-w-7xl mx-auto shadow-md relative">
@@ -149,30 +151,35 @@ export default function Navbar() {
                   transition={{ duration: 0.2 }}
                   className="absolute top-8 right-0 z-50 w-[300px] bg-white shadow-xl border border-gray-200 rounded-xl px-4 py-3"
                 >
-                  <div className="flex flex-col gap-2 max-h-[240px] overflow-y-auto custom-scrollbar">
-                    {cartItems.map((item) => (
-                      <div
-                        key={item.id_producto}
-                        className="flex gap-3 items-center text-sm"
-                      >
-                        <img
-                          src={item.imagen}
-                          alt={item.nombre_producto}
-                          className="w-12 h-12 rounded object-cover border"
-                        />
-                        <div className="flex flex-col flex-grow">
-                          <span className="truncate font-medium">
-                            {item.nombre_producto}
-                          </span>
-                          <span className="text-xs text-gray-500">
-                            x{item.cantidad}
+                  <div className="flex flex-col gap-3 max-h-[240px] overflow-y-auto custom-scrollbar">
+                    {cartItems.map((item) => {
+                      const product = products.find(
+                        (p) => p.id_producto === item.id_producto
+                      );
+                      return (
+                        <div
+                          key={item.id_producto}
+                          className="flex gap-4 items-center text-sm py-2 border-b last:border-b-0 border-gray-100"
+                        >
+                          <img
+                            src={item.imagen || product?.imagen}
+                            alt={item.nombre_producto}
+                            className="w-14 h-14 rounded-lg object-contain  flex-shrink-0"
+                          />
+                          <div className="flex flex-col flex-grow min-w-0">
+                            <span className="truncate font-medium">
+                              {item.nombre_producto}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                              x{item.cantidad}
+                            </span>
+                          </div>
+                          <span className="text-base font-semibold text-gray-700 whitespace-nowrap ml-2">
+                            ${item.precio}
                           </span>
                         </div>
-                        <span className="text-xs font-semibold text-gray-700 whitespace-nowrap">
-                          ${item.precio}
-                        </span>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   <div className="mt-2 border-t pt-2 flex justify-between text-sm font-semibold">
@@ -203,6 +210,7 @@ export default function Navbar() {
           </div>
         )}
       </nav>
+      {console.log(cartItems)}
     </header>
   );
 }
