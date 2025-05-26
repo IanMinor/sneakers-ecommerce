@@ -7,7 +7,7 @@ function CheckoutItem({ item }) {
     <article className="flex w-full max-h-[150px] h-full font-rubik bg-white border-gray-200 rounded-lg p-4 mt-4 gap-5">
       <figure className="w-[150px] h-[full] rounded-[24px] overflow-hidden shadow-lg flex items-center justify-center flex-grow-0">
         <img
-          src={item.image}
+          src={item.imagen}
           alt={item.title || "Product image"}
           className="w-full h-full object-cover"
         />
