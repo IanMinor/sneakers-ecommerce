@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { apiUrl } from "../utils/api";
 
 export function useProductById(id) {
   const [product, setProduct] = useState(null);
@@ -8,7 +9,7 @@ export function useProductById(id) {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://localhost:3001/api/products/${id}`);
+        const res = await fetch(`${apiUrl}/api/products/${id}`);
         if (!res.ok) throw new Error("Producto no encontrado");
         const data = await res.json();
         setProduct(data);
