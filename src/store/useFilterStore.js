@@ -41,4 +41,12 @@ export const useFilterStore = create((set) => ({
         category: [],
       },
     })),
+
+  setMultipleFilters: (newFilters) =>
+    set((state) => ({
+      filters: {
+        ...state.filters,
+        ...newFilters,
+      },
+    })),
 }));

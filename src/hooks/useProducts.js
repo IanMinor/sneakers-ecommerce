@@ -11,7 +11,7 @@ export function useProducts() {
         const res = await fetch("http://localhost:3001/api/products");
         if (!res.ok) throw new Error("Error al obtener los productos");
         const data = await res.json();
-        setProducts(data);
+        setProducts(data.products || []);
       } catch (err) {
         setError(err.message);
       } finally {
