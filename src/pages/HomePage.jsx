@@ -68,7 +68,7 @@ function HomePage() {
             whileHover={{ scale: 1.03, boxShadow: "0 0 40px #000" }}
           >
             <motion.img
-              src="public/images/yeezy.png"
+              src="/images/yeezy.png"
               alt="Yeezy sneaker"
               className="relative w-[80vw] max-w-[300px] md:w-[650px] md:max-w-[650px] h-[80vw] max-h-[300px] md:h-[650px] md:max-h-[650px] right-0 md:right-[50px] bottom-0 md:bottom-[100px] rotate-[-5deg]"
               initial={{ rotate: -15, y: 60, opacity: 0 }}
